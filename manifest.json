@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "SAP Live Play",
+  "version": "0.1.6",
+  "description": "SAP Live Play captures Super Auto Pets network activity and logs arena/watch and versus/watch traffic.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "debugger"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://teamwood.itch.io/*",
+    "https://*.itch.zone/*",
+    "https://*.hwcdn.net/*",
+    "https://api.teamwood.games/*"
+  ],
+  "background": {
+    "service_worker": "src/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://teamwood.itch.io/super-auto-pets*",
+        "https://teamwood.itch.io/*",
+        "https://*.itch.zone/*",
+        "https://*.hwcdn.net/*"
+      ],
+      "js": [
+        "src/content/game-content-v3.js"
+      ],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/inject/network-hook.js"
+      ],
+      "matches": [
+        "https://teamwood.itch.io/*",
+        "https://*.itch.zone/*",
+        "https://*.hwcdn.net/*"
+      ]
+    }
+  ],
+  "action": {
+    "default_title": "SAP Live Play"
+  }
+}
