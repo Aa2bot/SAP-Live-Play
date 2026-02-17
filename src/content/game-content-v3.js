@@ -13,6 +13,13 @@
   let versusResponseCount = 0;
   let latestWatchEntry = null;
 
+  const SHOULD_RENDER_PANEL =
+    window !== window.top &&
+    (location.hostname.includes(".itch.zone") || location.hostname.includes(".hwcdn.net"));
+  if (!SHOULD_RENDER_PANEL) {
+    return;
+  }
+
   function appendToRoot(node) {
     const root = document.documentElement || document.head || document.body;
     if (root) {
@@ -49,19 +56,20 @@
   const panel = document.createElement("div");
   panel.id = "sap-live-play-panel";
   panel.style.position = "fixed";
-  panel.style.left = "8px";
-  panel.style.bottom = "8px";
+  panel.style.right = "12px";
+  panel.style.top = "30%";
+  panel.style.transform = "translateY(-50%)";
   panel.style.zIndex = "2147483647";
-  panel.style.background = "rgba(0,0,0,0.88)";
-  panel.style.color = "#fff";
-  panel.style.border = "1px solid #3d3d3d";
+  panel.style.background = "rgba(255,255,255,0.22)";
+  panel.style.color = "#111";
+  panel.style.border = "1px solid rgba(255,255,255,0.55)";
   panel.style.borderRadius = "8px";
-  panel.style.padding = "8px";
-  panel.style.width = "300px";
+  panel.style.padding = "6px";
+  panel.style.width = "240px";
   panel.style.maxHeight = "82vh";
   panel.style.overflow = "auto";
   panel.style.fontFamily = "system-ui, -apple-system, Segoe UI, sans-serif";
-  panel.style.fontSize = "10px";
+  panel.style.fontSize = "9px";
   panel.style.lineHeight = "1.35";
   panel.style.pointerEvents = "auto";
 
@@ -80,43 +88,43 @@
   const copyLatestBtn = document.createElement("button");
   copyLatestBtn.textContent = "Copy Latest watch";
   copyLatestBtn.style.width = "100%";
-  copyLatestBtn.style.padding = "5px 7px";
+  copyLatestBtn.style.padding = "4px 6px";
   copyLatestBtn.style.border = "1px solid #505050";
   copyLatestBtn.style.borderRadius = "6px";
-  copyLatestBtn.style.background = "#234f7d";
-  copyLatestBtn.style.color = "#fff";
+  copyLatestBtn.style.background = "rgba(255,255,255,0.35)";
+  copyLatestBtn.style.color = "#111";
   copyLatestBtn.style.cursor = "pointer";
 
   const copyAllBtn = document.createElement("button");
   copyAllBtn.textContent = "Copy Full watch Log";
   copyAllBtn.style.width = "100%";
-  copyAllBtn.style.padding = "5px 7px";
+  copyAllBtn.style.padding = "4px 6px";
   copyAllBtn.style.border = "1px solid #505050";
   copyAllBtn.style.borderRadius = "6px";
-  copyAllBtn.style.background = "#355e35";
-  copyAllBtn.style.color = "#fff";
+  copyAllBtn.style.background = "rgba(255,255,255,0.35)";
+  copyAllBtn.style.color = "#111";
   copyAllBtn.style.cursor = "pointer";
   copyAllBtn.style.marginTop = "6px";
 
   const clearBtn = document.createElement("button");
   clearBtn.textContent = "Clear watch Log";
   clearBtn.style.width = "100%";
-  clearBtn.style.padding = "5px 7px";
+  clearBtn.style.padding = "4px 6px";
   clearBtn.style.border = "1px solid #505050";
   clearBtn.style.borderRadius = "6px";
-  clearBtn.style.background = "#7a2f2f";
-  clearBtn.style.color = "#fff";
+  clearBtn.style.background = "rgba(255,255,255,0.35)";
+  clearBtn.style.color = "#111";
   clearBtn.style.cursor = "pointer";
   clearBtn.style.marginTop = "6px";
 
   const replayBtn = document.createElement("button");
   replayBtn.textContent = "Run Replay From Latest Pid";
   replayBtn.style.width = "100%";
-  replayBtn.style.padding = "5px 7px";
+  replayBtn.style.padding = "4px 6px";
   replayBtn.style.border = "1px solid #505050";
   replayBtn.style.borderRadius = "6px";
-  replayBtn.style.background = "#5a3f8a";
-  replayBtn.style.color = "#fff";
+  replayBtn.style.background = "rgba(255,255,255,0.35)";
+  replayBtn.style.color = "#111";
   replayBtn.style.cursor = "pointer";
   replayBtn.style.marginTop = "6px";
 
@@ -131,7 +139,7 @@
   replayImage.style.marginTop = "8px";
   replayImage.style.border = "1px solid #2f2f2f";
   replayImage.style.borderRadius = "6px";
-  replayImage.style.background = "#111";
+  replayImage.style.background = "rgba(255,255,255,0.20)";
 
   const previewTitle = document.createElement("div");
   previewTitle.textContent = "Latest Entry Preview";
@@ -143,10 +151,10 @@
   preview.style.padding = "6px";
   preview.style.border = "1px solid #2f2f2f";
   preview.style.borderRadius = "6px";
-  preview.style.background = "#0b0b0b";
+  preview.style.background = "rgba(255,255,255,0.20)";
   preview.style.whiteSpace = "pre-wrap";
   preview.style.wordBreak = "break-word";
-  preview.style.maxHeight = "170px";
+  preview.style.maxHeight = "130px";
   preview.style.overflow = "auto";
   preview.textContent = "No watch data captured yet.";
 
@@ -443,3 +451,9 @@
     void refreshFromStorage();
   }, REFRESH_MS);
 })();
+
+
+
+
+
+

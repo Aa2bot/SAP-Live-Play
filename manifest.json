@@ -6,8 +6,7 @@
   "permissions": [
     "storage",
     "tabs",
-    "activeTab",
-    "debugger"
+    "activeTab"
   ],
   "host_permissions": [
     "<all_urls>",
@@ -50,3 +49,4 @@
     "default_title": "SAP Live Play"
   }
 }
+

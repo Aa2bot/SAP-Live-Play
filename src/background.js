@@ -25,6 +25,7 @@ const SAP_URL_HINTS = [
 const debuggerAttachedTabs = new Set();
 const pendingBattleGetRequests = new Map();
 const wsRequestMeta = new Map();
+const HAS_DEBUGGER_API = Boolean(chrome.debugger && chrome.debugger.onEvent && chrome.debugger.sendCommand);
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -484,6 +485,10 @@ async function setDebuggerAttachedStatus(attached, tabId) {
 }
 
 async function ensureDebuggerAttached(tabId) {
+  if (!HAS_DEBUGGER_API) {
+    return;
+  }
+
   if (tabId === undefined || tabId === null) {
     return;
   }
@@ -824,7 +829,8 @@ async function refetchLatestBattleGetFromHistory(senderTabId) {
   return first || second;
 }
 
-chrome.debugger.onEvent.addListener(async (source, method, params) => {
+if (HAS_DEBUGGER_API) {
+  chrome.debugger.onEvent.addListener(async (source, method, params) => {
   try {
     if (!source || source.tabId === undefined || source.tabId === null) {
       return;
@@ -906,7 +912,8 @@ chrome.debugger.onEvent.addListener(async (source, method, params) => {
   } catch (err) {
     console.warn("debugger event processing failed:", err);
   }
-});
+  });
+}
 
 chrome.tabs.onRemoved.addListener((tabId) => {
   debuggerAttachedTabs.delete(tabId);
@@ -1274,4 +1281,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
 
 });
+
+
 
